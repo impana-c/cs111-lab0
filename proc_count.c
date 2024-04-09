@@ -8,10 +8,17 @@ static struct proc_dir_entry *entry;
 
 static int proc_count(struct seq_file *m, void *v){
 	// TODO: it's all yours
-	for (p = &init_task; (p=next_task(p)) != &init_task; ){
-		// your logic here
-	}
-	return 0;
+	int process_count = 0;
+    struct task_struct *task;
+    struct task_struct *thread;
+
+    for_each_process_thread(task, thread) {
+        process_count++;
+    }
+
+    seq_printf(m, "%d\n", process_count);
+
+    return 0;
 }
 
 static int __init proc_count_init(void)
